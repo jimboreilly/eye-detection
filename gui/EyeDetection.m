@@ -1,3 +1,4 @@
+
 function varargout = EyeDetection(varargin)
 % EYEDETECTION MATLAB code for EyeDetection.fig
 %      EYEDETECTION, by itself, creates a new EYEDETECTION or raises the existing
@@ -225,12 +226,18 @@ else
     set(handles.axes1,'visible','on') %hide the current axes
     set(get(handles.axes1,'children'),'visible','on') %hide the current axes contents
     hold on;
-    
-    r = 40; x = 340; y = 175;
-    th = 0:pi/50:2*pi;
-    xunit = r * cos(th) + x;
-    yunit = r * sin(th) + y;
-    h = plot(xunit, yunit, 'r', 'LineWidth', 2);
+    if(~system('C:\Users\Jim\Documents\GitHub\eye-detection\test resources\ReturnsZero.exe'))
+       coords = csvread('C:\Users\Jim\Documents\GitHub\eye-detection\test resources\test_output.txt');
+       x = coords(1); y = coords(2); r = coords(3);
+       
+       th = 0:pi/50:2*pi;
+       xunit = r * cos(th) + x;
+       yunit = r * sin(th) + y;
+       h = plot(xunit, yunit, 'r', 'LineWidth', 2);
+       
+    else
+        disp('ERROR, missing output file\n');
+    end
 end
 
 function isValid = validateInput(imagePath, outputPath)
