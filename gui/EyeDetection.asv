@@ -184,7 +184,7 @@ function openOutputFileDialog_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 [file path] = uigetfile('*.txt');
 filepath = strcat(path, file);
-set(handles.output_file_path, 'String', filepath);
+set(handles.jpeg_file_path, 'String', filepath);
 
 
 function output_file_path_Callback(hObject, eventdata, handles)
@@ -215,17 +215,14 @@ function mainButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 imagePath = get(handles.jpeg_file_path, 'String');
-outputPath = get(handles.output_file_path, 'String');
-
-if(~validateInput(imagePath, outputPath))
-    fprintf('ERROR: enter valid input files (.jpg/.jpeg for image .txt for output)\n')
+if(isempty(imagePath))
+    fprintf('Error, enter input file first')
 else
     inputImage = imread(imagePath);
     image(inputImage);
     set(handles.axes1,'visible','on') %hide the current axes
     set(get(handles.axes1,'children'),'visible','on') %hide the current axes contents
     hold on;
-    
     r = 40; x = 340; y = 175;
     th = 0:pi/50:2*pi;
     xunit = r * cos(th) + x;
@@ -234,16 +231,10 @@ else
 end
 
 function isValid = validateInput(imagePath, outputPath)
-    isValid = 0;
-    
     imagePattern = '^.*\.(?:jpg|jpeg)$';
-    outputPattern = '^.*\.txt$';
-    
-    if (regexp(imagePath, imagePattern))
-       if(regexp(outputPath, outputPattern))
-           isValid = 1;
-       end
-    end
+    t
+    regexp(imagePath, imagePattern)
+end
 
 
 % --- Executes during object creation, after setting all properties.
