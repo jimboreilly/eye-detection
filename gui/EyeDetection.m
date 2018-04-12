@@ -223,8 +223,8 @@ if(~validateInput(imagePath, outputPath))
 else
     inputImage = imread(imagePath);
     image(inputImage);
-    set(handles.axes1,'visible','on') %hide the current axes
-    set(get(handles.axes1,'children'),'visible','on') %hide the current axes contents
+    set(handles.axes1,'visible','on') %show the current axes
+    set(get(handles.axes1,'children'),'visible','on') %show the current axes contents
     hold on;
     if(~system('C:\Users\Jim\Documents\GitHub\eye-detection\test resources\ReturnsZero.exe')) %paths to test files (should convert to relative)
        coords = csvread('C:\Users\Jim\Documents\GitHub\eye-detection\test resources\test_output.txt');
