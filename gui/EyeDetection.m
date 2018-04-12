@@ -226,7 +226,7 @@ else
     set(handles.axes1,'visible','on') %hide the current axes
     set(get(handles.axes1,'children'),'visible','on') %hide the current axes contents
     hold on;
-    if(~system('C:\Users\Jim\Documents\GitHub\eye-detection\test resources\ReturnsZero.exe'))
+    if(~system('C:\Users\Jim\Documents\GitHub\eye-detection\test resources\ReturnsZero.exe')) %paths to test files (should convert to relative)
        coords = csvread('C:\Users\Jim\Documents\GitHub\eye-detection\test resources\test_output.txt');
        x = coords(1); y = coords(2); r = coords(3);
        
