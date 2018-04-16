@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EyeDetection", "EyeDetection\EyeDetection.vcxproj", "{9193BB66-6314-4C3A-8209-22099FCCA1BC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9193BB66-6314-4C3A-8209-22099FCCA1BC}.Debug|x64.ActiveCfg = Debug|x64
+		{9193BB66-6314-4C3A-8209-22099FCCA1BC}.Debug|x64.Build.0 = Debug|x64
+		{9193BB66-6314-4C3A-8209-22099FCCA1BC}.Debug|x86.ActiveCfg = Debug|Win32
+		{9193BB66-6314-4C3A-8209-22099FCCA1BC}.Debug|x86.Build.0 = Debug|Win32
+		{9193BB66-6314-4C3A-8209-22099FCCA1BC}.Release|x64.ActiveCfg = Release|x64
+		{9193BB66-6314-4C3A-8209-22099FCCA1BC}.Release|x64.Build.0 = Release|x64
+		{9193BB66-6314-4C3A-8209-22099FCCA1BC}.Release|x86.ActiveCfg = Release|Win32
+		{9193BB66-6314-4C3A-8209-22099FCCA1BC}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B3FF1261-F81F-44A1-A67D-1E2D4C86172A}
+	EndGlobalSection
+EndGlobal

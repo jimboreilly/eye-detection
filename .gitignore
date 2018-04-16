@@ -1,0 +1,10 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+Debug/
+Release/
+
+# VS Artifacts
+.vs/
+
+
