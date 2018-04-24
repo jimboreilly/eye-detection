@@ -221,11 +221,35 @@ outputPath = get(handles.output_file_path, 'String');
 if(~validateInput(imagePath, outputPath))
     fprintf('ERROR: enter valid input files (.jpg/.jpeg for image .txt for output)\n')
 else
+    %load image from path
     inputImage = imread(imagePath);
+    
+    %grab size of image
+    [rows, cols, rgb] = size(inputImage);
+    imageGray = zeros(rows, cols);
+    fileID = fopen('image-gray.bin', 'w+');
+
+    %convert the rgb values to gray, write to image-gray.bin
+    for i = 1:rows
+        for j = 1:cols
+            %weighted RGB to Gray: 0.2989 R + 0.5870 G + 0.1140 B 
+            pixel = (0.2989 .* inputImage(i,j,1)) + (0.5870 * inputImage(i,j,2)) +  (0.1140 .* inputImage(i,j,3));
+            fprintf(fileID, '%u ', pixel);
+            imageGray(i,j) = pixel;
+        end
+        fprintf(fileID, '\n');
+    end
+    
+    imageGray = cast(imageGray, 'uint8');
+    
+    %plot the image in the figure
     image(inputImage);
     set(handles.axes1,'visible','on') %show the current axes
     set(get(handles.axes1,'children'),'visible','on') %show the current axes contents
     hold on;
+    
+    %call the main.exe and if 0 is returned, then overplot the circle from
+    %the csv
     if(~system('C:\Users\Jim\Documents\GitHub\eye-detection\test resources\ReturnsZero.exe')) %paths to test files (should convert to relative)
        coords = csvread('C:\Users\Jim\Documents\GitHub\eye-detection\test resources\test_output.txt');
        x = coords(1); y = coords(2); r = coords(3);
@@ -240,6 +264,7 @@ else
     end
 end
 
+%checks if the two inputs are valid
 function isValid = validateInput(imagePath, outputPath)
     isValid = 0;
     

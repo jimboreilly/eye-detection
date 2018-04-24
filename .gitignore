@@ -7,3 +7,6 @@ Release/
 # VS Artifacts
 .vs/
 .vscode/
+gui/EyeDetection.asv
+gui/image-gray2.bin
+gui/image-gray.bin
