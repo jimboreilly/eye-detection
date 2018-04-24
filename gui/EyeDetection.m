@@ -223,12 +223,25 @@ if(~validateInput(imagePath, outputPath))
 else
     %load image from path
     inputImage = imread(imagePath);
-    
+    hObject.BackgroundColor = 'g';
+    drawnow
     %grab size of image
     [rows, cols, rgb] = size(inputImage);
-    if(rgb~=3)
-        disp('ERROR, input image not in RGB format.');
-    else
+    if(rgb==1)
+        imageGray = zeros(rows, cols);
+        fileID = fopen('image-gray.bin', 'w+');
+
+        %convert the rgb values to gray, write to image-gray.bin
+        for i = 1:rows
+            for j = 1:cols
+                %weighted RGB to Gray: 0.2989 R + 0.5870 G + 0.1140 B 
+                fprintf(fileID, '%u ', pixel);
+                imageGray(i,j) = pixel;
+            end
+            fprintf(fileID, '\n');
+        end
+        disp('Input image not in RGB format.');
+    elseif(rgb==3)
     imageGray = zeros(rows, cols);
     fileID = fopen('image-gray.bin', 'w+');
 
@@ -241,6 +254,7 @@ else
             imageGray(i,j) = pixel;
         end
         fprintf(fileID, '\n');
+    end
     end
     fclose(fileID);
     imageGray = cast(imageGray, 'uint8');
@@ -264,10 +278,9 @@ else
        yunit = r * sin(th) + y;
        h = plot(xunit, yunit, 'r', 'LineWidth', 2);
        disp('Processed image.');
-       annotation('textbox','String',strcat('Pupil found at (',num2str(x),',',num2str(y),')'));
+       annotation('textbox','String',strcat('Pupil found at (',num2str(x),',',num2str(y),') with radius ',strcat(r)));
     else
         disp('ERROR, missing output file.');
-    end
     end
 end
 
