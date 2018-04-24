@@ -239,11 +239,12 @@ else
         end
         fprintf(fileID, '\n');
     end
-    
+    fclose(fileID);
     imageGray = cast(imageGray, 'uint8');
     
     %plot the image in the figure
-    image(inputImage);
+    imagesc(imageGray);
+    colormap gray;
     set(handles.axes1,'visible','on') %show the current axes
     set(get(handles.axes1,'children'),'visible','on') %show the current axes contents
     hold on;
