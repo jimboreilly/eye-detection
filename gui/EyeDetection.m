@@ -54,7 +54,7 @@ function EyeDetection_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for EyeDetection
 handles.output = hObject;
-
+hObject.Name = 'EyeDetection';
 % Update handles structure
 guidata(hObject, handles);
 
@@ -66,6 +66,7 @@ end
 
 set(handles.axes1,'visible','off') %hide the current axes
 set(get(handles.axes1,'children'),'visible','off') %hide the current axes contents
+
 
 % UIWAIT makes EyeDetection wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
@@ -217,7 +218,7 @@ function mainButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 imagePath = get(handles.jpeg_file_path, 'String');
 outputPath = get(handles.output_file_path, 'String');
-
+delete(findall(gcf,'type','annotation'))
 if(~validateInput(imagePath, outputPath))
     fprintf('ERROR: enter valid input files (.jpg/.jpeg for image .txt for output)\n')
 else
@@ -225,6 +226,7 @@ else
     inputImage = imread(imagePath);
     hObject.BackgroundColor = 'g';
     drawnow
+    pause(3);
     %grab size of image
     [rows, cols, rgb] = size(inputImage);
     if(rgb==1)
@@ -278,7 +280,7 @@ else
        yunit = r * sin(th) + y;
        h = plot(xunit, yunit, 'r', 'LineWidth', 2);
        disp('Processed image.');
-       annotation('textbox','String',strcat('Pupil found at (',num2str(x),',',num2str(y),') with radius ',strcat(r)));
+       handles.ann = annotation('textbox', [ .2 .55 .1 .1 ],'Color', 'r','String',strcat('Pupil found at (',num2str(x),',',num2str(y),') with radius=',num2str(r),'.'));
     else
         disp('ERROR, missing output file.');
     end
