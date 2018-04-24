@@ -1,18 +1,18 @@
 #ifndef CIRCLE_H
 #define CIRCLE_H
   class Circle {
-      int origin_x;
-      int origin_y;;
-      int radius;
+      double origin_x;
+      double origin_y;;
+      double radius;
     public:
-      Circle(int x, int y, int rad);
+      Circle(double x, double y, double rad);
       ~Circle();                           //destructor
       Circle(const Circle & circ);            //copy constructor
       Circle & operator=(const Circle & circ); //assignment
-      int getOriginX();
-      int getOriginY();
-      int getRadius();
+      double getOriginX();
+      double getOriginY();
+      double getRadius();
     private:
-      void init(int x, int y, int rad);
+      void init(double x, double y, double rad);
   };
 #endif

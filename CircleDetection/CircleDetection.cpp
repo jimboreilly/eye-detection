@@ -1,19 +1,11 @@
-#include <iostream>
-#include <fstream>
-#include <cstdlib>
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
-#include "Image.h"
-#include "Circle.h"
-#include "VotingData.h"
-
+#include "CircleDetection.h"
 using namespace std;
 
-#define MAX_DEG 360
-#define PI 3.14159265358979
+CircleDetection::CircleDetection(void){}
 
-void voting(VotingData & data, int minRad, Image & im){
+CircleDetection::~CircleDetection(){}
+
+void CircleDetection::voting(VotingData & data, int minRad, Image & im){
   int a=0, b=0, d=0, x=0, y=0, r=0;
   VotingData lookup(data.getHeight(),data.getWidth(),data.getRange());
   VotingData blank(data.getHeight(),data.getWidth(),data.getRange());
@@ -39,8 +31,7 @@ void voting(VotingData & data, int minRad, Image & im){
   }
 }
 
-
-Circle bestCircle(VotingData & v, int minRad){
+Circle CircleDetection::bestCircle(VotingData & v, int minRad){
   unsigned int i=0, j=0, k=0;
   int bestH=0, bestW=0, bestR=0, bestScore=0;
   for(i=0; i<v.getHeight(); i++){
@@ -59,38 +50,12 @@ Circle bestCircle(VotingData & v, int minRad){
   return(out);
 }
 
-int main(int argc, char** argv){
-  if(argc!=6){
-    cout<<"Error: enter 5 arguments with the call to this functionality\n";
-    exit(EXIT_FAILURE);
-  }
-
-  unsigned int i=0, j=0;
-  ofstream outfile;
-  char outfilename[100];
-
-  char *filename = argv[1];
-  int height = atoi(argv[2]);
-  int width = atoi(argv[3]);
-  int minRadius = atoi(argv[4]);
-  int maxRadius = atoi(argv[5]);
-  int range = maxRadius - minRadius;
+Circle CircleDetection::detectCircle(Image & im, int height, int width, int minRad, int range){
+  cout<<"running CircleDetection functionality\n";
   
   VotingData data(height,width,range);
-
-  Image im(width,height);
-  im.readImage(filename);
-
-  voting(data,minRadius,im);
-
-  Circle out = bestCircle(data,minRadius);
   
-  strcpy(outfilename,"out.csv");
-  outfile.open(outfilename);
-  if(outfile.is_open()){
-    outfile << out.getOriginX() << "," << out.getOriginY() << "," << out.getRadius() << std::flush;
-    outfile.close();
-  } else cout<< "Unable to write to "<< filename<<"\n";
-  
-  return 0;
+  voting(data,minRad,im);
+
+  return (bestCircle(data,minRad));
 }

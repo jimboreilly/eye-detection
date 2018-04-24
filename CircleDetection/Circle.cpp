@@ -3,14 +3,14 @@
 #include <cstdlib>
 #include "Circle.h"
 
-void Circle::init(int x, int y, int rad){
+void Circle::init(double x, double y, double rad){
 //set properties
   origin_x = x;
   origin_y = y;
   radius = rad;
 }
 
-Circle::Circle(int x, int y, int rad){  init(x,y,rad);  }
+Circle::Circle(double x, double y, double rad){  init(x,y,rad);  }
 
 Circle::~Circle(){}
 
@@ -22,14 +22,14 @@ Circle & Circle::operator=(const Circle & circ){
   return *this;
 }
 
-int Circle::getOriginX(){
+double Circle::getOriginX(){
   return origin_x;
 }
 
-int Circle::getOriginY(){
+double Circle::getOriginY(){
   return origin_y;
 }
 
-int Circle::getRadius(){
+double Circle::getRadius(){
   return radius;
 }
