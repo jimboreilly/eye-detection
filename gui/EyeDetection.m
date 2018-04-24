@@ -57,7 +57,8 @@ handles.output = hObject;
 hObject.Name = 'EyeDetection';
 % Update handles structure
 guidata(hObject, handles);
-
+delete(findall(gcf,'type','annotation'))
+delete(findall(gcf,'type','image'))
 % This sets up the initial plot - only do when we are invisible
 % so window can get raised using EyeDetection.
 if strcmp(get(hObject,'Visible'),'off')
