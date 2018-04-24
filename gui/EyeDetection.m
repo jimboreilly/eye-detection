@@ -226,6 +226,9 @@ else
     
     %grab size of image
     [rows, cols, rgb] = size(inputImage);
+    if(rgb~=3)
+        disp('ERROR, input image not in RGB format.');
+    else
     imageGray = zeros(rows, cols);
     fileID = fopen('image-gray.bin', 'w+');
 
@@ -248,7 +251,8 @@ else
     set(handles.axes1,'visible','on') %show the current axes
     set(get(handles.axes1,'children'),'visible','on') %show the current axes contents
     hold on;
-    
+    drawnow
+
     %call the main.exe and if 0 is returned, then overplot the circle from
     %the csv
     if(system('test resources\ReturnsZero.exe')==-1.073741515000000e+09) %paths to test files (should convert to relative)
@@ -259,9 +263,11 @@ else
        xunit = r * cos(th) + x;
        yunit = r * sin(th) + y;
        h = plot(xunit, yunit, 'r', 'LineWidth', 2);
-       disp('Processed file.');
+       disp('Processed image.');
+       annotation('textbox','String',strcat('Pupil found at (',num2str(x),',',num2str(y),')'));
     else
         disp('ERROR, missing output file.');
+    end
     end
 end
 
