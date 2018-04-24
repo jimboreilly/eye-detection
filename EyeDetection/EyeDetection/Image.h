@@ -18,6 +18,8 @@ public:
   void setVal(int, int, float);
   void readImage(char* fileName);
   void writeImage(char* fileName);
+  void createEdgeMap(double threshold);
+  float getAverageValue();
 };
 #endif
 

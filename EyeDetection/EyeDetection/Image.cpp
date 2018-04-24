@@ -92,3 +92,29 @@ void Image::writeImage(char *filename) {
   file.write((char*)data, num_rows*num_cols*4);
   file.close();
 }
+
+float Image::getAverageValue() {
+    unsigned int i = 0;
+    float sum = 0, avg = 0;
+    for (i = 0; i<num_rows*num_cols; i++) {
+        double dabs = fabs(data[i]);
+        sum += dabs;
+    }
+    avg = sum / (num_rows*num_cols);
+    return avg;
+}
+
+void Image::createEdgeMap(double threshold) {
+    unsigned int i = 0, j = 0;
+    for (i = 0; i<num_rows; i++) {
+        for (j = 0; j<num_cols; j++) {
+            double x = getVal(i, j);
+            if (x > threshold) {
+                setVal(i, j, 1);
+            }
+            else {
+                setVal(i, j, 0);
+            }
+        }
+    }
+}
