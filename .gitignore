@@ -10,3 +10,5 @@ Release/
 gui/EyeDetection.asv
 gui/image-gray2.bin
 gui/image-gray.bin
+*.user
+*.bin
