@@ -226,7 +226,6 @@ else
     inputImage = imread(imagePath);
     hObject.BackgroundColor = 'g';
     drawnow
-    pause(3);
     %grab size of image
     [rows, cols, rgb] = size(inputImage);
     if(rgb==1)
