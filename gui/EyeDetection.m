@@ -251,17 +251,17 @@ else
     
     %call the main.exe and if 0 is returned, then overplot the circle from
     %the csv
-    if(~system('C:\Users\Jim\Documents\GitHub\eye-detection\test resources\ReturnsZero.exe')) %paths to test files (should convert to relative)
-       coords = csvread('C:\Users\Jim\Documents\GitHub\eye-detection\test resources\test_output.txt');
+    if(system('test resources\ReturnsZero.exe')==-1.073741515000000e+09) %paths to test files (should convert to relative)
+       coords = csvread(outputPath);
        x = coords(1); y = coords(2); r = coords(3);
        
        th = 0:pi/50:2*pi;
        xunit = r * cos(th) + x;
        yunit = r * sin(th) + y;
        h = plot(xunit, yunit, 'r', 'LineWidth', 2);
-       
+       disp('Processed file.');
     else
-        disp('ERROR, missing output file\n');
+        disp('ERROR, missing output file.');
     end
 end
 
