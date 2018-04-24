@@ -184,7 +184,7 @@ function openOutputFileDialog_Callback(hObject, eventdata, handles)
 % hObject    handle to openOutputFileDialog (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-[file path] = uigetfile('*.txt');
+[file path] = uigetfile('*.txt;*.csv');
 filepath = strcat(path, file);
 set(handles.output_file_path, 'String', filepath);
 
@@ -219,6 +219,8 @@ function mainButton_Callback(hObject, eventdata, handles)
 imagePath = get(handles.jpeg_file_path, 'String');
 outputPath = get(handles.output_file_path, 'String');
 delete(findall(gcf,'type','annotation'))
+delete(findall(gcf,'type','image'))
+
 if(~validateInput(imagePath, outputPath))
     fprintf('ERROR: enter valid input files (.jpg/.jpeg for image .txt for output)\n')
 else
@@ -236,8 +238,8 @@ else
         for i = 1:rows
             for j = 1:cols
                 %weighted RGB to Gray: 0.2989 R + 0.5870 G + 0.1140 B 
-                fprintf(fileID, '%u ', pixel);
-                imageGray(i,j) = pixel;
+                fprintf(fileID, '%u ', inputImage(i,j));
+                imageGray(i,j) = inputImage(i,j);
             end
             fprintf(fileID, '\n');
         end
@@ -261,7 +263,9 @@ else
     imageGray = cast(imageGray, 'uint8');
     
     %plot the image in the figure
-    imagesc(imageGray);
+    gx = imagesc(imageGray);
+    %gx.XData = size(imageGray,1);
+    %gx.YData = size(imageGray,2);
     colormap gray;
     set(handles.axes1,'visible','on') %show the current axes
     set(get(handles.axes1,'children'),'visible','on') %show the current axes contents
@@ -283,14 +287,15 @@ else
     else
         disp('ERROR, missing output file.');
     end
+    hObject.BackgroundColor = [.94 .94 .94];
 end
 
 %checks if the two inputs are valid
 function isValid = validateInput(imagePath, outputPath)
     isValid = 0;
     
-    imagePattern = '^.*\.(?:jpg|jpeg)$';
-    outputPattern = '^.*\.txt$';
+    imagePattern = '^.*\.(?:jpg|jpeg|JPG)$';
+    outputPattern = '^.*\.(?:txt|csv|TXT)$';
     
     if (regexp(imagePath, imagePattern))
        if(regexp(outputPath, outputPattern))
