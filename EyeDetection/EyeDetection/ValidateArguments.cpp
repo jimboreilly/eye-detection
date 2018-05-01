@@ -4,9 +4,10 @@
 #include <stdlib.h>
 #include "ValidateArguments.h"
 
+//validate the number of input arguments and type of inputs are correct
 void validateInputArguments(int argc, char *argv[], int *width, int *height) {
-    if (argc != 4) {
-        printf("ERROR: EyeDetection.exe usage -> <input.bin> <int width> <int height>\n");
+    if (argc != 5) {
+        printf("ERROR: EyeDetection.exe usage -> <input.bin> <int width> <int height> <string output filename >\n");
         exit(1);
     }
     if (sscanf(argv[2], "%i", width) != 1) {
@@ -19,12 +20,14 @@ void validateInputArguments(int argc, char *argv[], int *width, int *height) {
     }
 }
 
+//check that a file exists by trying to open it
 void validateFileExists(char* fileName) {
     FILE *fp = fopen(fileName, "r");
     if (fp == NULL) {
+        //throws if does not exist
         printf("ERROR: file not found exception\n");
         exit(2);
     }
-
+    //program continues if does
     else return;
 }
