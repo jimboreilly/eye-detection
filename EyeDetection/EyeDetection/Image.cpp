@@ -62,7 +62,7 @@ float* Image::getData() {
 
 //convert row/column into a 1 dimensional matrix index
 int Image::getIndex(int r, int c) {
-    return (r * num_rows) + c;
+    return (r * num_cols) + c;
 }
 
 float Image::getVal(int r, int c) {
@@ -99,9 +99,10 @@ void Image::writeImage(char *filename) {
 float Image::getAverageValue() {
     unsigned int i = 0;
     float sum = 0, avg = 0;
-    for (i = 0; i < num_rows*num_cols; i++) {
-        double dabs = fabs(data[i]);
-        sum += dabs;
+    for (int rows = 0; rows < num_rows; rows++) {
+        for (int cols = 0; cols < num_cols; cols++) {
+            sum += fabs(getVal(rows, cols));
+        }
     }
     avg = sum / (num_rows*num_cols);
     return avg;

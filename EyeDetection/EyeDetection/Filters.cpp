@@ -31,6 +31,23 @@ Image Filter::process(Image & im, int m, int n) {
     int i = 0, j = 0, hood_m = 0, hood_n = 0, x = 0, y = 0;
     float val = 0;
 
+    //zero the columns on left and right of image
+    for (int row = 0; row < out.getNumRows(); row++) {
+        for (int col = 0; col < border_nc; col++) {
+            out.setVal(row, col, 0);
+            int rightEndCol = out.getNumCols() - 1 - col;
+            out.setVal(row, rightEndCol, 0);
+        }
+    }
+
+    //zero the rows on top and bottom of image
+    for (int col = 0; col < out.getNumCols(); col++) {
+        for (int row = 0; row < border_nr; row++) {
+            out.setVal(row, col, 0);
+            int bottomRow = out.getNumRows() - 1 - row;
+            out.setVal(bottomRow, col, 0);
+        }
+    }
     //for each row, each column, each kernel dimension
     for (i = border_nr; i < out.getNumRows() - border_nr; i++) {
         for (j = border_nc; j < out.getNumCols() - border_nc; j++) {
