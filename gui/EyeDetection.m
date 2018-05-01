@@ -21,9 +21,13 @@ function varargout = EyeDetection(varargin)
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help EyeDetection
+%------------------------------------------------------------------------------------
+% Most of the GUI code below was created through MATLAB's GUI Editor.
+% This is the case unless otherwise stated by additional comments.
+% Last edited by Alex Barrington, 2018.05.01
+%------------------------------------------------------------------------------------
 
-% Last Modified by GUIDE v2.5 10-Apr-2018 13:16:30
+% Edit the above text to modify the response to help EyeDetection
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -51,6 +55,7 @@ function EyeDetection_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to EyeDetection (see VARARGIN)
+% Last edited by Alex Barrington, 2018.05.01
 
 % Choose default command line output for EyeDetection
 handles.output = hObject;
@@ -79,6 +84,7 @@ function varargout = EyeDetection_OutputFcn(hObject, eventdata, handles)
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+% Last edited by Alex Barrington, 2018.05.01
 
 % Get default command line output from handles structure
 varargout{1} = handles.output;
@@ -88,6 +94,8 @@ function openInputFileDialog_Callback(hObject, eventdata, handles)
 % hObject    handle to openInputFileDialog (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+% Last edited by Alex Barrington, 2018.05.01
+
 [file path] = uigetfile('*.jpeg;*.jpg');
 filepath = strcat(path, file);
 set(handles.jpeg_file_path, 'String', filepath);
@@ -185,6 +193,8 @@ function openOutputFileDialog_Callback(hObject, eventdata, handles)
 % hObject    handle to openOutputFileDialog (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+% Last edited by Alex Barrington, 2018.05.01
+
 [file path] = uigetfile('*.txt;*.csv');
 filepath = strcat(path, file);
 set(handles.output_file_path, 'String', filepath);
@@ -217,6 +227,7 @@ function mainButton_Callback(hObject, eventdata, handles)
 % hObject    handle to mainButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+% Last edited by Alex Barrington, 2018.05.01
 imagePath = get(handles.jpeg_file_path, 'String');
 outputPath = get(handles.output_file_path, 'String');
 delete(findall(gcf,'type','annotation'))
@@ -272,29 +283,83 @@ else
     set(get(handles.axes1,'children'),'visible','on') %show the current axes contents
     hold on;
     drawnow
-
-    %call the main.exe and if 0 is returned, then overplot the circle from
-    %the csv
-    if(system('test resources\ReturnsZero.exe')==-1.073741515000000e+09) %paths to test files (should convert to relative)
-       coords = csvread(outputPath);
-       x = coords(1); y = coords(2); r = coords(3);
+	
+	% references
+	% calling the main program executable: https://www.mathworks.com/matlabcentral/answers/92537-how-do-i-pass-arguments-into-and-out-of-my-standalone-executable-running-exe-file-from-mtlab-using-system
+	% Make sure to use Circle.txt (provided in zip folder) as the output file
+	% because it contains dummy circle coordinate/radius data for plotting
+	
+   %------Calling the main program --- Sophia
        
+    % the executable must be passed in in a specific manner to run. Create
+    % a string that includes the dummy ReturnsZero.exe provided by the main
+    % team, and the input arguments. The should already be converted to a
+    % string, but in case they are not, the 'num2str' method is used
+    
+    % This line was used to test an unsuccessful executable run
+    % return_value = system('ReturnsZero.exe')
+    
+    % error-check in case the executable does
+    
+    commandStr = ['test resources\ReturnsZero.exe', num2str(imagePath), num2str(outputPath)];
+        
+	% use the system command execute the executable
+    return_value = system(commandStr)
+    
+    if (return_value ~= 0) 
+		disp(' The executable did not terminate successfully.')
+    end 
+	
+        
+	% extract the x-coordinate of the circle, y-coordinate of the circle
+	% and radius of the circle from the text file output by the main
+	% program using the comma-separated value Matlab function
+	circleData = csvread(outputPath);
+       
+	% Error check in case the data from the text file cannot be
+	% extracted
+	if (size(circleData) == 0) 
+		disp('The output data is either not in the specified text file, or is not formatted correctly. Each data value should be separated by a comma')  
+	end 
+
+	% Store each of the three array elements in an intuitive variable
+	% name for further calculations
+	x = circleData(1);
+	y = circleData(2);
+	r = circleData(3);
+
+
+	% end Sophia's part
+	% call the main.exe and if 0 is returned, then overplot the circle from
+	% the csv
+ 
+% Old code 
+%	if(system('test resources\ReturnsZero.exe')==-1.073741515000000e+09) %paths to test files (should convert to relative)
+%       coords = csvread(outputPath);
+%       x = coords(1); y = coords(2); r = coords(3);
+% Conversion of coordinates to image space and a circle that will be drawn on the image with a textbox.       
        th = 0:pi/50:2*pi;
        xunit = r * cos(th) + x;
        yunit = r * sin(th) + y;
        h = plot(xunit, yunit, 'r', 'LineWidth', 2);
        disp('Processed image.');
        handles.ann = annotation('textbox', [ .2 .55 .1 .1 ],'Color', 'r','String',strcat('Pupil found at (',num2str(x),',',num2str(y),') with radius=',num2str(r),'.'));
-    else
-        disp('ERROR, missing output file.');
-    end
-    hObject.BackgroundColor = [.94 .94 .94];
+%    else
+%        disp('ERROR, missing output file.');
+%	end
+    
+	% Return object color.
+	hObject.BackgroundColor = [.94 .94 .94];
+	
 end
 
-%checks if the two inputs are valid
 function isValid = validateInput(imagePath, outputPath)
+	% Check if the two inputs are valid
+	% Last edited by Alex Barrington, 2018.05.01
+
     isValid = 0;
     
+	% Only allow JPGs to be input and TXTs or CSVs to be output.
     imagePattern = '^.*\.(?:jpg|jpeg|JPG)$';
     outputPattern = '^.*\.(?:txt|csv|TXT)$';
     
@@ -303,7 +368,6 @@ function isValid = validateInput(imagePath, outputPath)
            isValid = 1;
        end
     end
-
 
 % --- Executes during object creation, after setting all properties.
 function axes1_CreateFcn(hObject, eventdata, handles)
