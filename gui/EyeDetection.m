@@ -96,7 +96,7 @@ function openInputFileDialog_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 % Last edited by Alex Barrington, 2018.05.01
 
-[file path] = uigetfile('*.jpeg;*.jpg');
+[file path] = uigetfile('*.jpeg;*.jpg;*.JPG');
 filepath = strcat(path, file);
 set(handles.jpeg_file_path, 'String', filepath);
 
@@ -195,7 +195,7 @@ function openOutputFileDialog_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 % Last edited by Alex Barrington, 2018.05.01
 
-[file path] = uigetfile('*.txt;*.csv');
+[file path] = uigetfile('*.txt;*.csv;*.TXT');
 filepath = strcat(path, file);
 set(handles.output_file_path, 'String', filepath);
 
@@ -327,7 +327,6 @@ else
 	x = circleData(1);
 	y = circleData(2);
 	r = circleData(3);
-
 
 	% end Sophia's part
 	% call the main.exe and if 0 is returned, then overplot the circle from
