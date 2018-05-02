@@ -69,7 +69,7 @@ delete(findall(gcf,'type','image'))
 if strcmp(get(hObject,'Visible'),'off')
     plot(rand(5));
 end
-
+handles.circle = plot(0, 0, 'r', 'LineWidth', 1);
 set(handles.axes1,'visible','off') %hide the current axes
 set(get(handles.axes1,'children'),'visible','off') %hide the current axes contents
 
@@ -232,7 +232,10 @@ imagePath = get(handles.jpeg_file_path, 'String');
 outputPath = get(handles.output_file_path, 'String');
 delete(findall(gcf,'type','annotation'))
 delete(findall(gcf,'type','image'))
-
+if(isfield(handles,'circle'))
+    delete(handles.circle)
+    disp('Delete circle')
+end
 if(~validateInput(imagePath, outputPath))
     fprintf('ERROR: enter valid input files (.jpg/.jpeg for image .txt for output)\n')
 else
@@ -301,15 +304,15 @@ else
     
     % error-check in case the executable does
     
-    commandStr = ['test resources\ReturnsZero.exe', num2str(imagePath), num2str(outputPath)];
+    commandStr = char(strcat({'EyeDetection\Release\EyeDetection.exe image-gray.bin '}, num2str(cols),{' '},num2str(rows),{' '},(outputPath)))
         
 	% use the system command execute the executable
+    cd C:\Users\4217Barrina\Documents\GitHub\eye_detection
     return_value = system(commandStr)
     
     if (return_value ~= 0) 
 		disp(' The executable did not terminate successfully.')
-    end 
-	
+    end
         
 	% extract the x-coordinate of the circle, y-coordinate of the circle
 	% and radius of the circle from the text file output by the main
@@ -324,8 +327,8 @@ else
 
 	% Store each of the three array elements in an intuitive variable
 	% name for further calculations
-	x = circleData(1);
-	y = circleData(2);
+	y = circleData(1);
+	x = circleData(2);
 	r = circleData(3);
 
 	% end Sophia's part
@@ -340,7 +343,7 @@ else
        th = 0:pi/50:2*pi;
        xunit = r * cos(th) + x;
        yunit = r * sin(th) + y;
-       h = plot(xunit, yunit, 'r', 'LineWidth', 2);
+       handles.circle = plot(xunit, yunit, 'r', 'LineWidth', 2);
        disp('Processed image.');
        handles.ann = annotation('textbox', [ .2 .55 .1 .1 ],'Color', 'r','String',strcat('Pupil found at (',num2str(x),',',num2str(y),') with radius=',num2str(r),'.'));
 %    else
