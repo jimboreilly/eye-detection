@@ -12,11 +12,10 @@ float EdgeDetection::updatePixel(Image & hood) {
         std::cout << "kernel and neighborhood dimensions must match \n";
         exit(EXIT_FAILURE);
     }
-    for (i = 0; i<hood.getNumRows(); ++i) {
-        for (j = 0; j<hood.getNumCols(); ++j) {
+    for (i = 0; i < hood.getNumRows(); ++i) {
+        for (j = 0; j < hood.getNumCols(); ++j) {
             sum += (kernel.getVal(i, j)*hood.getVal(i, j));
         }
     }
-    std::cout << "(hood_center,kernel_sum) : (" << hood.getVal(1, 1) << "," << sum << ")\n";
     return sum;
 }
