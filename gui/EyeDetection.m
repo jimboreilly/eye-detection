@@ -232,6 +232,8 @@ imagePath = get(handles.jpeg_file_path, 'String');
 outputPath = get(handles.output_file_path, 'String');
 delete(findall(gcf,'type','annotation'))
 delete(findall(gcf,'type','image'))
+cla
+
 if(isfield(handles,'circle'))
     delete(handles.circle)
     disp('Delete circle')
@@ -279,11 +281,11 @@ else
     
     %plot the image in the figure
     gx = imagesc(imageGray);
-    %gx.XData = size(imageGray,1);
-    %gx.YData = size(imageGray,2);
     colormap gray;
     set(handles.axes1,'visible','on') %show the current axes
     set(get(handles.axes1,'children'),'visible','on') %show the current axes contents
+    handles.axes1.YLim=[1 size(imageGray,1)];
+    handles.axes1.XLim=[1 size(imageGray,2)];
     hold on;
     drawnow
 	
@@ -304,7 +306,7 @@ else
     
     % error-check in case the executable does
     
-    commandStr = char(strcat({'EyeDetection\Release\EyeDetection.exe image-gray.bin '}, num2str(cols),{' '},num2str(rows),{' '},(outputPath)))
+    commandStr = char(strcat({'EyeDetection\Release\EyeDetection.exe image-gray.bin '}, num2str(cols),{' '},num2str(rows),{' '},({outputPath})))
         
 	% use the system command execute the executable
     cd C:\Users\4217Barrina\Documents\GitHub\eye_detection
