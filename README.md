@@ -12,3 +12,7 @@ Runs a Sobel Filter on a 2D Image Object and returns a threshold evaluated bit-m
 ## CircleDetection
 
 Runs the Hough transform algorithm on a 2D bit-map of the edges on an image of an eye to detect the pupil
+
+## Test resources
+
+Shared images, files, and more to test our subsystems
