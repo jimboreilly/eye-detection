@@ -309,7 +309,7 @@ else
     commandStr = char(strcat({'EyeDetection\Release\EyeDetection.exe image-gray.bin '}, num2str(cols),{' '},num2str(rows),{' '},({outputPath})))
         
 	% use the system command execute the executable
-    cd C:\Users\4217Barrina\Documents\GitHub\eye_detection
+    cd C:\Users\Jim\Documents\GitHub\eye-detection
     return_value = system(commandStr)
     
     if (return_value ~= 0) 
